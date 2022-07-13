@@ -19,17 +19,41 @@ require(tidyverse)
 
 Fish = read.csv("Fish.csv")
 Perch = filter(Fish, Species =="Perch")
+Pike = filter(Fish, Species == "Pike")
+Roach = filter(Fish, Species == "Roach")
 ```
 
 # Predicting Fish Weight
 
+From this graph I see that the best two predictors of Weight for Perch are Length3 and Height
+
 
 ## Perch
 
+```{r}
+pwt = lm(Weight~Length1 + Length2 + Length3 + Height, data=Perch)
+summary(pwt)
+```
+
+```{r}
+library(leaps)
+regsubsets.out <-
+  regsubsets(Weight ~ Length1 + Length2 + Length3 + Height, data = Perch, 
+             nbest = 2,    # 1best model for each number
+             nvmax = NULL, # NULL for no limit on number
+             force.in = NULL, force.out = NULL, 
+             method = "exhaustive")
+regsubsets.out
+```
+
+
 ### Best Models
+
+Best model for this case is 
 
 ### Best Two regressor model
 
+From the graph, the best two-parameter regressor model is based on Length3 and Height.
 
 ## Pike
 
